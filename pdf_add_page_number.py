@@ -19,7 +19,7 @@ class PageNumberAdderGUI(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.resize(400, 300)
+        self.resize(300, 300)
         self.file_path_label = QLabel('PDF 文件路径:')
         self.file_path_line_edit = QLineEdit()
         self.browse_button = QPushButton('浏览')
