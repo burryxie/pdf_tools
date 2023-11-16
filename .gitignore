@@ -2,3 +2,5 @@ dist/
 build/
 .DS_Store
 *.spec
+test.py
+*.pdf

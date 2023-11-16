@@ -1,48 +1,51 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QMessageBox
 from PyQt5.QtCore import QProcess
-import subprocess
-from pdf_add_page_number import PageNumberAdderGUI
+import sys
 
-
-class EntryWindow(QPushButton):
+class MainWindow(QWidget):
     def __init__(self):
-        super(EntryWindow, self).__init__()
+        super(MainWindow, self).__init__()
+        self.resize(300, 300)
+        self.initUI()
 
-        self.setWindowTitle('东宸数智\u2122   PDF工具箱')
-        self.resize(300, 100)
-        # 创建按钮
-        self.pdf_add_page_number_button = QPushButton("添加页码")
-        self.pdf_add_page_number_button.clicked.connect(self.pdf_add_page_number_button)
 
-        # 创建垂直布局管理器
-        layout = QVBoxLayout(self)
+    def show_message_dialog(self, message):
+        msg_dialog = QMessageBox()
+        msg_dialog.setText(message)
+        msg_dialog.exec_()
 
-        # 将按钮添加到布局中
-        layout.addWidget(self.pdf_add_page_number_button)
-
-    def pdf_add_page_number_button(self):
-        # 在按钮点击时打开另一个程序
-        # program_path = "pdf_add_page_number.py"  # 替换为你的程序路径
-        # # QProcess.startDetached(sys.executable, [sys.executable, program_path])
-        # process = QProcess()
-        # process.start("python", [program_path])
-
-        # app_a = QApplication([])  # 创建一个新的应用程序实例
-        # program_a = PageNumberAdderGUI()  # 创建 ProgramA 窗口
-        # program_a.show()
-        # sys.exit(app_a.exec_())
+    def initUI(self):
+        self.setWindowTitle('东宸数智\u2122  PDF工具箱')
         
-        program_a_path = "pdf_add_page_number.py"  # 替换为你的程序路径
-        # subprocess.Popen(["python", program_a_path])
-        process = QProcess()
-        process.start("python", [program_a_path])
+
+        add_page_number = QPushButton('添加页码', self)
+        add_page_number.clicked.connect(self.add_page_number)
+
+        to_be_added = QPushButton('敬请期待', self)
+        to_be_added.clicked.connect(self.to_be_added)
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(add_page_number)
+        vbox.addWidget(to_be_added)
+
+        self.setLayout(vbox)
+        self.show()
+
+        # 在这里创建 QProcess 对象
+        self.process = QProcess(self)
+
+    def add_page_number(self):
+        # 设置要启动的程序
+        self.process.start('python', ['pdf_add_page_number.py'])
+
+        # 如果需要等待 a.py 进程完成，可以使用 waitForFinished
+        # self.process.waitForFinished()
+
+    def to_be_added(self):
+        self.show_message_dialog("更多功能，敬请期待")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    entry_window = EntryWindow()
-    entry_window.show()
-
+    window = MainWindow()
     sys.exit(app.exec_())
