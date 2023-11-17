@@ -21,11 +21,15 @@ class MainWindow(QWidget):
         add_page_number = QPushButton('添加页码', self)
         add_page_number.clicked.connect(self.add_page_number)
 
+        pdf_to_img = QPushButton('提取图片', self)
+        pdf_to_img.clicked.connect(self.pdf_to_img)
+
         to_be_added = QPushButton('敬请期待', self)
         to_be_added.clicked.connect(self.to_be_added)
 
         vbox = QVBoxLayout()
         vbox.addWidget(add_page_number)
+        vbox.addWidget(pdf_to_img)
         vbox.addWidget(to_be_added)
 
         self.setLayout(vbox)
@@ -38,8 +42,11 @@ class MainWindow(QWidget):
         # 设置要启动的程序
         self.process.start('python', ['pdf_add_page_number.py'])
 
-        # 如果需要等待 a.py 进程完成，可以使用 waitForFinished
-        # self.process.waitForFinished()
+    def pdf_to_img(self):
+        # 设置要启动的程序
+        self.process.start('python', ['pdf_to_img.py'])
+
+
 
     def to_be_added(self):
         self.show_message_dialog("更多功能，敬请期待")
